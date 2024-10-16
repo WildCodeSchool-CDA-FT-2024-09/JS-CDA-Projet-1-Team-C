@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "lint": "eslint '*/**/*.{js,jsx,ts,tsx}'",
+    "lint": "eslint --fix",
     "format": "prettier --write '*/**/*.{js,jsx,ts,tsx}'"
   },
   "devDependencies": {

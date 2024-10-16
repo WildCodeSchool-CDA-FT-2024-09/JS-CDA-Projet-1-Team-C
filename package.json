@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "prepare": "husky",
+    "lint": "lint-staged",
+    "lint-front": "cd client && npm run lint",
+    "lint-back": "cd api && npm run lint"
+  },
+  "dependencies": {
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
+  },
+  "lint-staged": {
+    "./client/**/*": [
+      "npm run lint-front"
+    ],
+    "./api/**/*": [
+      "npm run lint-back"
+    ]
+  }
+}

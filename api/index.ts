@@ -1,2 +1,1 @@
-console.log("hello");
-// eoajzoij
+// Point d'entrée de l'app
