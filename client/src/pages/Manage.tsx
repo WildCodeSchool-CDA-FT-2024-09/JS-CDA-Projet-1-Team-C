@@ -1,8 +1,20 @@
+import { Link as RouterLink } from "react-router-dom";
+import { Link as MUILink, Typography, Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+
+const buttonStyle = {
+  display: "inline-block",
+  padding: "8px 16px",
+  color: "white",
+  backgroundColor: "primary.main",
+  borderRadius: "4px",
+  textDecoration: "none",
+  width: "100%",
+  textAlign: "center",
+  "&:hover": {
+    backgroundColor: "primary.dark",
+  },
+};
 
 export default function Manage() {
   return (
@@ -21,25 +33,29 @@ export default function Manage() {
         <Grid size={3}></Grid>
         <Grid container spacing={2} size={6}>
           <Grid size={12}>
-            <Link href="/manage/competitions">
-              <Button sx={{ width: "100%" }} variant="contained">
-                Gérer compétitions
-              </Button>
-            </Link>
+            <MUILink
+              component={RouterLink}
+              to="/manage/competitions"
+              sx={buttonStyle}
+            >
+              Gérer compétitions
+            </MUILink>
           </Grid>
           <Grid size={12}>
-            <Link href="/manage/teams">
-              <Button sx={{ width: "100%" }} variant="contained">
-                Gérer équipes
-              </Button>
-            </Link>
+            <MUILink component={RouterLink} to="/manage/teams" sx={buttonStyle}>
+              Gérer équipes
+            </MUILink>
           </Grid>
           <Grid size={12}>
-            <Link href="/manage/juries">
-              <Button sx={{ width: "100%" }} variant="contained">
+            <MUILink
+              component={RouterLink}
+              to="/manage/juries"
+              sx={buttonStyle}
+            >
+              <Typography variant="body1" component="span">
                 Gérer jurys
-              </Button>
-            </Link>
+              </Typography>
+            </MUILink>
           </Grid>
         </Grid>
         <Grid size={3}></Grid>
