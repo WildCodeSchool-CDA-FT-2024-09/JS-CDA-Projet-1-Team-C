@@ -8,7 +8,8 @@ import {
   TableBody,
   Paper,
   Typography,
-  Box
+  Box,
+  TextField,
 } from "@mui/material";
 
 export default function TeamsManagement() {
@@ -54,6 +55,20 @@ export default function TeamsManagement() {
                   <TableCell align="right">{team.location}</TableCell>
                 </TableRow>
               ))}
+            <TableRow
+              key={"team to add"}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                <TextField label="name" variant="outlined" fullWidth />
+              </TableCell>
+              <TableCell align="right">
+                <TextField label="contact" variant="outlined" fullWidth />
+              </TableCell>
+              <TableCell align="right">
+                <TextField label="name" variant="outlined" fullWidth />
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
