@@ -6,6 +6,7 @@ import { ApolloProvider } from "@apollo/client";
 import App from "./App.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import Juries from "./pages/Juries.tsx";
+import Manage from "./pages/Manage.tsx";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/juries",
         element: <Juries />,
+      },
+      {
+        path: "/manage",
+        element: <Manage />,
       },
     ],
   },
