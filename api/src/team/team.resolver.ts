@@ -17,7 +17,7 @@ class TeamInput implements Partial<Team> {
 export default class TeamResolver {
   @Query(() => [Team])
   async allTeams() {
-    return [];
+    return await Team.find();
   }
 
   @Mutation(() => Team)
