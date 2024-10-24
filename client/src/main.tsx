@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage.tsx";
 import Juries from "./pages/Juries.tsx";
 import TeamsManagement from "./pages/TeamsManagment.tsx";
 import JuriesManagement from "./pages/JuriesManagement.tsx";
+import Manage from "./pages/Manage.tsx";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             element: <JuriesManagement />,
           },
           {
+            index: true,
+            element: <Manage />,
+          },
+          {
             path: "teams",
             element: <TeamsManagement />,
           },
@@ -49,5 +54,5 @@ createRoot(document.getElementById("root")!).render(
     <ApolloProvider client={connexion}>
       <RouterProvider router={router} />
     </ApolloProvider>
-  </StrictMode>
+  </StrictMode>,
 );
