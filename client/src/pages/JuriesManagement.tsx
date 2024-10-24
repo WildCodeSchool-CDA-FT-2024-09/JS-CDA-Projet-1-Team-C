@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography, Box } from "@mui/material";
+import JuryAddRow from "../components/JuryAddRow";
 
 export default function JuriesManagement() {
   const { loading, error, data } = useGetAllJuriesQuery();
@@ -26,35 +27,36 @@ export default function JuriesManagement() {
           Gestion des jurys
         </Typography>
       </Box>
-      {data && data.getAllJuries.length ? (
-        <>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="Liste des jurys">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="left">#</TableCell>
-                  <TableCell>Nom</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.getAllJuries.map((jury) => (
+
+      <>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="Liste des jurys">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">#</TableCell>
+                <TableCell>Nom</TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data &&
+                data.getAllJuries.map((jury) => (
                   <TableRow
-                    key={jury.name}
+                    key={jury.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell align="left">{jury.id}</TableCell>
                     <TableCell component="th" scope="row">
                       {jury.name}
                     </TableCell>
+                    <TableCell align="right"></TableCell>
                   </TableRow>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      ) : (
-        <p>Aucun jury.</p>
-      )}
+              <JuryAddRow />
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </>
     </>
   );
 }

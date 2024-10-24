@@ -17,6 +17,10 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type CreateJuryInput = {
+  name: Scalars['String']['input'];
+};
+
 export type Jury = {
   __typename?: 'Jury';
   id: Scalars['ID']['output'];
@@ -26,11 +30,17 @@ export type Jury = {
 export type Mutation = {
   __typename?: 'Mutation';
   create: Team;
+  createNewJury: Jury;
 };
 
 
 export type MutationCreateArgs = {
   team: TeamInput;
+};
+
+
+export type MutationCreateNewJuryArgs = {
+  data: CreateJuryInput;
 };
 
 export type Query = {
@@ -53,6 +63,13 @@ export type TeamInput = {
   name: Scalars['String']['input'];
 };
 
+export type CreateNewJuryMutationVariables = Exact<{
+  data: CreateJuryInput;
+}>;
+
+
+export type CreateNewJuryMutation = { __typename?: 'Mutation', createNewJury: { __typename?: 'Jury', name: string } };
+
 export type CreateTeamMutationVariables = Exact<{
   team: TeamInput;
 }>;
@@ -71,6 +88,39 @@ export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllTeamsQuery = { __typename?: 'Query', allTeams: Array<{ __typename?: 'Team', location: string, name: string, contact: string }> };
 
 
+export const CreateNewJuryDocument = gql`
+    mutation CreateNewJury($data: CreateJuryInput!) {
+  createNewJury(data: $data) {
+    name
+  }
+}
+    `;
+export type CreateNewJuryMutationFn = Apollo.MutationFunction<CreateNewJuryMutation, CreateNewJuryMutationVariables>;
+
+/**
+ * __useCreateNewJuryMutation__
+ *
+ * To run a mutation, you first call `useCreateNewJuryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewJuryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewJuryMutation, { data, loading, error }] = useCreateNewJuryMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateNewJuryMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewJuryMutation, CreateNewJuryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNewJuryMutation, CreateNewJuryMutationVariables>(CreateNewJuryDocument, options);
+      }
+export type CreateNewJuryMutationHookResult = ReturnType<typeof useCreateNewJuryMutation>;
+export type CreateNewJuryMutationResult = Apollo.MutationResult<CreateNewJuryMutation>;
+export type CreateNewJuryMutationOptions = Apollo.BaseMutationOptions<CreateNewJuryMutation, CreateNewJuryMutationVariables>;
 export const CreateTeamDocument = gql`
     mutation createTeam($team: TeamInput!) {
   create(team: $team) {
