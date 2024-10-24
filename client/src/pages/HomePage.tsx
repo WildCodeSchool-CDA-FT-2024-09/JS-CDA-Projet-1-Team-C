@@ -33,7 +33,7 @@ export default function HomePage() {
     <>
       <Grid container spacing={5} justifyContent="center" sx={{ marginTop: 9 }}>
         <Grid size={5}>
-          <img src={imgSnd} style={{ width: "100%", height: "auto" }} />
+          <img src={imgSnd} style={{ width: "100%", height: "auto" }} alt="Un enfant qui construit un robot"/>
         </Grid>
         <Grid size={5}>
           <Item>
@@ -64,7 +64,7 @@ export default function HomePage() {
           </Item>
         </Grid>
         <Grid size={5}>
-          <img src={imgFirst} style={{ width: "100%", height: "auto" }} />
+          <img src={imgFirst} style={{ width: "100%", height: "auto" }} alt="Trois enfants qui jouent avec un robot"/>
         </Grid>
       </Grid>
 
