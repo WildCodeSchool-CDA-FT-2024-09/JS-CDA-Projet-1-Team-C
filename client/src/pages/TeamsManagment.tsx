@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, RefObject } from "react";
 import { GET_ALL_TEAMS } from "../schemas/queries";
 import {
   useGetAllTeamsQuery,
@@ -34,73 +34,48 @@ export default function TeamsManagement() {
   const [message, setMessage] = useState("");
 
   // used instead of states to avoid multiple re-renders when typing
-  const newTeamNameRef = useRef();
-  const newTeamContactRef = useRef();
-  const newTeamLocationRef = useRef();
+  const newTeamNameRef = useRef<HTMLInputElement>(null);
+  const newTeamContactRef = useRef<HTMLInputElement>(null);
+  const newTeamLocationRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  if (loading) return <p>Loading...</p>;
-
-  if (error) return <p>Error :(</p>;
-
-  // these three functions are used to validate the inputs of the new team
-  // they impact the clickability of the button.
-  const handleNameChange = () => {
-    const name = newTeamNameRef.current.value;
-    const isValidName = /.{5,100}/.test(name);
-    if (isValidName) {
-      setInputError({ ...inputError, name: false });
-    } else {
-      setInputError({ ...inputError, name: true });
-    }
+  const validateInput = (inputRef: RefObject<HTMLInputElement>) => {
+    const value = inputRef.current && inputRef.current.value;
+    return value? /.{5,100}/.test(value): false ;
   };
 
-  const handleContactChange = () => {
-    const contact = newTeamContactRef.current.value;
-    const isValidContact = /.{5,100}/.test(contact);
-    if (isValidContact) {
-      setInputError({ ...inputError, contact: false });
-    } else {
-      setInputError({ ...inputError, contact: true });
-    }
+  const handleInputChange = (
+    field: string,
+    inputRef: RefObject<HTMLInputElement>
+  ) => {
+    const isValid = validateInput(inputRef);
+    setInputError((prevErrors) => ({ ...prevErrors, [field]: !isValid }));
   };
 
-  const handleLocationChange = () => {
-    const location = newTeamLocationRef.current.value;
-    const isValidLocation = /.{5,100}/.test(location);
-    if (isValidLocation) {
-      setInputError({ ...inputError, location: false });
-    } else {
-      setInputError({ ...inputError, location: true });
-    }
-  };
-
-  // this function is needed because it can set all the errors with a single call
   const handleTeamInputValidation = () => {
-    const name = newTeamNameRef.current.value;
-    const contact = newTeamContactRef.current.value;
-    const location = newTeamLocationRef.current.value;
-    const isValidName = /.{5,100}/.test(name);
-    const isValidContact = /.{5,100}/.test(contact);
-    const isValidLocation = /.{5,100}/.test(location);
+    const isValidName = validateInput(newTeamNameRef);
+    const isValidContact = validateInput(newTeamContactRef);
+    const isValidLocation = validateInput(newTeamLocationRef);
+
     setInputError({
       name: !isValidName,
       contact: !isValidContact,
       location: !isValidLocation,
     });
-    return (isValidName && isValidContact && isValidLocation)
+
+    return isValidName && isValidContact && isValidLocation;
   };
 
   const handleAddTeam = async () => {
     if (handleTeamInputValidation()) {
       try {
         const newTeam = {
-          name: newTeamNameRef.current.value,
-          contact: newTeamContactRef.current.value,
-          location: newTeamLocationRef.current.value,
+          name: newTeamNameRef.current ? newTeamNameRef.current.value : "" ,
+          contact: newTeamContactRef.current ? newTeamContactRef.current.value : "" ,
+          location: newTeamLocationRef.current ? newTeamLocationRef.current.value : "" ,
         };
         await addTeam({
           refetchQueries: [{ query: GET_ALL_TEAMS }],
@@ -109,9 +84,14 @@ export default function TeamsManagement() {
       } catch {
         setOpen(true);
         setMessage("Erreur dans l'ajout de l'équipe, le nom est-il unique ? ");
+        setInputError((prevErrors) => ({ ...prevErrors, name: true }));
       }
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+
+  if (error) return <p>Error :(</p>;
 
   return (
     <>
@@ -161,7 +141,7 @@ export default function TeamsManagement() {
                   variant="outlined"
                   fullWidth
                   required
-                  onChange={handleNameChange}
+                  onChange={() => handleInputChange("name", newTeamNameRef)}
                   error={inputError.name}
                   helperText={
                     inputError.name
@@ -177,7 +157,9 @@ export default function TeamsManagement() {
                   variant="outlined"
                   fullWidth
                   required
-                  onChange={handleContactChange}
+                  onChange={() =>
+                    handleInputChange("contact", newTeamContactRef)
+                  }
                   error={inputError.contact}
                   helperText={
                     inputError.contact
@@ -193,7 +175,9 @@ export default function TeamsManagement() {
                   variant="outlined"
                   fullWidth
                   required
-                  onChange={handleLocationChange}
+                  onChange={() =>
+                    handleInputChange("location", newTeamLocationRef)
+                  }
                   error={inputError.location}
                   helperText={
                     inputError.location
@@ -207,6 +191,7 @@ export default function TeamsManagement() {
                   disabled={
                     inputError.name || inputError.contact || inputError.location
                   }
+                  variant="contained"
                   onClick={handleAddTeam}
                 >
                   AJOUTER
