@@ -6,6 +6,7 @@ import { buildSchema } from "type-graphql";
 import * as dotenv from "dotenv";
 
 import TeamResolver from "./team/team.resolver";
+import JuryResolver from "./jury/jury.resolver";
 
 dotenv.config();
 const { API_PORT } = process.env;
@@ -13,7 +14,7 @@ const { API_PORT } = process.env;
 (async () => {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [TeamResolver],
+    resolvers: [TeamResolver, JuryResolver],
   });
 
   const server = new ApolloServer({
