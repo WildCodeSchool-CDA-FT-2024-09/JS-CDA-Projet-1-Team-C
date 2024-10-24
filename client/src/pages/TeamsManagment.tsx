@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useGetAllTeamsQuery } from "../types/graphql-types";
 import {
   TableContainer,
@@ -10,14 +11,25 @@ import {
   Typography,
   Box,
   TextField,
+  Button,
 } from "@mui/material";
 
 export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
+  const newTeamNameRef = useRef();
+  const newTeamContactRef = useRef();
+  const newTeamLocationRef = useRef();
 
   if (loading) return <p>Loading...</p>;
 
   if (error) return <p>Error :(</p>;
+
+  const handleAddTeam = () => {
+    const newTeam = {
+      name: newTeamNameRef.current.value,
+    };
+    console.info(newTeam);
+  };
 
   return (
     <>
@@ -37,8 +49,9 @@ export default function TeamsManagement() {
           <TableHead>
             <TableRow>
               <TableCell>Nom</TableCell>
-              <TableCell align="right">Contact</TableCell>
-              <TableCell align="right">Provenance</TableCell>
+              <TableCell>Contact</TableCell>
+              <TableCell>Provenance</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -51,8 +64,8 @@ export default function TeamsManagement() {
                   <TableCell component="th" scope="row">
                     {team.name}
                   </TableCell>
-                  <TableCell align="right">{team.contact}</TableCell>
-                  <TableCell align="right">{team.location}</TableCell>
+                  <TableCell>{team.contact}</TableCell>
+                  <TableCell>{team.location}</TableCell>
                 </TableRow>
               ))}
             <TableRow
@@ -60,13 +73,31 @@ export default function TeamsManagement() {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                <TextField label="name" variant="outlined" fullWidth />
+                <TextField
+                  inputRef={newTeamNameRef}
+                  label="name"
+                  variant="outlined"
+                  fullWidth
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  inputRef={newTeamContactRef}
+                  label="contact"
+                  variant="outlined"
+                  fullWidth
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  inputRef={newTeamLocationRef}
+                  label="provenance"
+                  variant="outlined"
+                  fullWidth
+                />
               </TableCell>
               <TableCell align="right">
-                <TextField label="contact" variant="outlined" fullWidth />
-              </TableCell>
-              <TableCell align="right">
-                <TextField label="name" variant="outlined" fullWidth />
+                <Button onClick={handleAddTeam}>AJOUTER</Button>
               </TableCell>
             </TableRow>
           </TableBody>
