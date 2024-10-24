@@ -1,15 +1,26 @@
-import { useState, useRef, RefObject } from "react";
-import { GET_ALL_TEAMS } from "../schemas/queries";
-import { useCreateTeamMutation } from "../types/graphql-types";
+import { useState, useRef, RefObject, Dispatch, SetStateAction } from "react";
 import { TableRow, TableCell, TextField, Button, Stack } from "@mui/material";
+import { GET_ALL_TEAMS } from "../schemas/queries";
+import {
+  Team,
+  useCreateTeamMutation,
+  useEditTeamMutation,
+} from "../types/graphql-types";
+import { Mode, SnackStatus } from "../types/types";
 
 export default function TeamRowEditOrCreate({
   team,
   displayMode,
   setDisplayMode,
   setSnackStatus,
+}: {
+  team: Team;
+  displayMode: string;
+  setDisplayMode: Dispatch<SetStateAction<Mode>>;
+  setSnackStatus: Dispatch<SetStateAction<SnackStatus>>;
 }) {
   const [addTeam] = useCreateTeamMutation();
+  const [editTeam] = useEditTeamMutation();
 
   // used to keep track of input errors
   const [inputError, setInputError] = useState({
@@ -80,6 +91,7 @@ export default function TeamRowEditOrCreate({
     if (handleTeamInputValidation()) {
       try {
         const newTeam = {
+          id: team.id,
           name: newTeamNameRef.current ? newTeamNameRef.current.value : "",
           contact: newTeamContactRef.current
             ? newTeamContactRef.current.value
@@ -88,15 +100,21 @@ export default function TeamRowEditOrCreate({
             ? newTeamLocationRef.current.value
             : "",
         };
-        // await addTeam({
-        //   refetchQueries: [{ query: GET_ALL_TEAMS }],
-        //   variables: { team: newTeam },
-        // });
-        console.info(newTeam)
+        await editTeam({
+          refetchQueries: [{ query: GET_ALL_TEAMS }],
+          variables: { team: newTeam },
+        });
+        setSnackStatus({
+          open: true,
+          message: "Modification enregistrée",
+          severity: "success",
+        });
+        setDisplayMode("consult");
       } catch {
         setSnackStatus({
           open: true,
-          message: "Erreur dans l'ajout de l'équipe, le nom est-il unique ? ",
+          message: "Erreur dans l'édition l'équipe",
+          severity: "error",
         });
         setInputError((prevErrors) => ({ ...prevErrors, name: true }));
       }

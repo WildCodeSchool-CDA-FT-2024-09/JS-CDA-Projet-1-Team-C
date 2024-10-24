@@ -1,6 +1,16 @@
+import { Dispatch, SetStateAction } from "react";
 import { TableRow, TableCell, Button } from "@mui/material";
+import { Team } from "../types/graphql-types";
+import { Mode } from "../types/types";
 
-export default function TeamRowConsult({ team, setDisplayMode }) {
+
+export default function TeamRowConsult({
+  team,
+  setDisplayMode,
+}: {
+  team: Team;
+  setDisplayMode: Dispatch<SetStateAction<Mode>>;
+}) {
   return (
     <TableRow
       key={team.name}

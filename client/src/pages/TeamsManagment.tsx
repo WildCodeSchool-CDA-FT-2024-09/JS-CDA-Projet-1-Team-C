@@ -14,12 +14,17 @@ import {
   Snackbar,
 } from "@mui/material";
 import TeamRow from "../components/TeamRow";
+import { SnackStatus } from "../types/types";
 
 export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
 
   // used for UI feedback
-  const [snackStatus, setSnackStatus] = useState({ open: false, message: "" });
+  const [snackStatus, setSnackStatus] = useState<SnackStatus>({
+    open: false,
+    message: "",
+    severity: "error",
+  });
 
   const handleClose = () => {
     setSnackStatus({ ...snackStatus, open: false });
@@ -49,7 +54,9 @@ export default function TeamsManagement() {
               <TableCell>Nom</TableCell>
               <TableCell>Contact</TableCell>
               <TableCell>Provenance</TableCell>
-              <TableCell align="right" style={{ minWidth: 250 }}>Actions</TableCell>
+              <TableCell align="right" style={{ minWidth: 250 }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -72,7 +79,11 @@ export default function TeamsManagement() {
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleClose}
+          severity={snackStatus.severity}
+          sx={{ width: "100%" }}
+        >
           {snackStatus.message}
         </Alert>
       </Snackbar>

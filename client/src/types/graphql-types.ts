@@ -25,11 +25,17 @@ export type Jury = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  create: Team;
+  createTeam: Team;
+  editTeam: Team;
 };
 
 
-export type MutationCreateArgs = {
+export type MutationCreateTeamArgs = {
+  team: TeamInput;
+};
+
+
+export type MutationEditTeamArgs = {
   team: TeamInput;
 };
 
@@ -49,6 +55,7 @@ export type Team = {
 
 export type TeamInput = {
   contact: Scalars['String']['input'];
+  id: Scalars['Float']['input'];
   location: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };
@@ -58,7 +65,14 @@ export type CreateTeamMutationVariables = Exact<{
 }>;
 
 
-export type CreateTeamMutation = { __typename?: 'Mutation', create: { __typename?: 'Team', contact: string, location: string, name: string } };
+export type CreateTeamMutation = { __typename?: 'Mutation', createTeam: { __typename?: 'Team', contact: string, location: string, name: string } };
+
+export type EditTeamMutationVariables = Exact<{
+  team: TeamInput;
+}>;
+
+
+export type EditTeamMutation = { __typename?: 'Mutation', editTeam: { __typename?: 'Team', contact: string, id: string, location: string, name: string } };
 
 export type GetAllJuriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -73,7 +87,7 @@ export type GetAllTeamsQuery = { __typename?: 'Query', allTeams: Array<{ __typen
 
 export const CreateTeamDocument = gql`
     mutation createTeam($team: TeamInput!) {
-  create(team: $team) {
+  createTeam(team: $team) {
     contact
     location
     name
@@ -106,6 +120,42 @@ export function useCreateTeamMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTeamMutationHookResult = ReturnType<typeof useCreateTeamMutation>;
 export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>;
 export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<CreateTeamMutation, CreateTeamMutationVariables>;
+export const EditTeamDocument = gql`
+    mutation editTeam($team: TeamInput!) {
+  editTeam(team: $team) {
+    contact
+    id
+    location
+    name
+  }
+}
+    `;
+export type EditTeamMutationFn = Apollo.MutationFunction<EditTeamMutation, EditTeamMutationVariables>;
+
+/**
+ * __useEditTeamMutation__
+ *
+ * To run a mutation, you first call `useEditTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editTeamMutation, { data, loading, error }] = useEditTeamMutation({
+ *   variables: {
+ *      team: // value for 'team'
+ *   },
+ * });
+ */
+export function useEditTeamMutation(baseOptions?: Apollo.MutationHookOptions<EditTeamMutation, EditTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditTeamMutation, EditTeamMutationVariables>(EditTeamDocument, options);
+      }
+export type EditTeamMutationHookResult = ReturnType<typeof useEditTeamMutation>;
+export type EditTeamMutationResult = Apollo.MutationResult<EditTeamMutation>;
+export type EditTeamMutationOptions = Apollo.BaseMutationOptions<EditTeamMutation, EditTeamMutationVariables>;
 export const GetAllJuriesDocument = gql`
     query GetAllJuries {
   getAllJuries {
