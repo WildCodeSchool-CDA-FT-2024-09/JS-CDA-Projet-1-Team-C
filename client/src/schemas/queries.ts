@@ -8,3 +8,13 @@ export const GET_JURIES = gql`
     }
   }
 `;
+
+export const CREATE_TEAM = gql`
+  query GetAllTeams {
+    allTeams {
+      location
+      name
+      contact
+    }
+  }
+`;

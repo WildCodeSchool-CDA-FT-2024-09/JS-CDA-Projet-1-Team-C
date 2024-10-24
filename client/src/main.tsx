@@ -1,16 +1,17 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import connexion from "./services/connexion";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
+import connexion from "./services/connexion";
 import App from "./App.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import Juries from "./pages/Juries.tsx";
+import TeamsManagement from "./pages/TeamsManagment.tsx";
+import JuriesManagement from "./pages/JuriesManagement.tsx";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import JuriesManagement from "./pages/JuriesManagement.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/juries",
+        path: "juries",
         element: <Juries />,
       },
       {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
           {
             path: "juries",
             element: <JuriesManagement />,
+          },
+          {
+            path: "teams",
+            element: <TeamsManagement />,
           },
         ],
       },
@@ -44,5 +49,5 @@ createRoot(document.getElementById("root")!).render(
     <ApolloProvider client={connexion}>
       <RouterProvider router={router} />
     </ApolloProvider>
-  </StrictMode>,
+  </StrictMode>
 );
