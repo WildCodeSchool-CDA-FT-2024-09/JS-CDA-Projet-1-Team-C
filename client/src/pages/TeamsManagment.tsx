@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGetAllTeamsQuery } from "../types/graphql-types";
 import {
   TableContainer,
@@ -9,11 +10,20 @@ import {
   Paper,
   Typography,
   Box,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import TeamRow from "../components/TeamRow";
 
 export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
+
+  // used for UI feedback
+  const [snackStatus, setSnackStatus] = useState({ open: false, message: "" });
+
+  const handleClose = () => {
+    setSnackStatus({ ...snackStatus, open: false });
+  };
 
   if (loading) return <p>Loading...</p>;
 
@@ -39,27 +49,33 @@ export default function TeamsManagement() {
               <TableCell>Nom</TableCell>
               <TableCell>Contact</TableCell>
               <TableCell>Provenance</TableCell>
-              <TableCell align="right">Actions</TableCell>
+              <TableCell align="right" style={{ minWidth: 250 }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data &&
               data.allTeams.map((team) => (
-                <TableRow
-                  key={team.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {team.name}
-                  </TableCell>
-                  <TableCell>{team.contact}</TableCell>
-                  <TableCell>{team.location}</TableCell>
-                </TableRow>
+                <TeamRow
+                  mode={"consult"}
+                  team={team}
+                  setSnackStatus={setSnackStatus}
+                />
               ))}
-            <TeamRow />
+            <TeamRow mode={"create"} setSnackStatus={setSnackStatus} />
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Snackbar
+        open={snackStatus.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {snackStatus.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
