@@ -4,7 +4,7 @@ import { Resolver, Query } from "type-graphql";
 @Resolver(Team)
 export default class TeamResolver {
   @Query(() => [Team])
-  async fullteam() {
+  async allTeams() {
     return [];
   }
 }

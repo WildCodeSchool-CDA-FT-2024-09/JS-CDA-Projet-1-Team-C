@@ -17,19 +17,16 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  create: Team;
-};
-
-
-export type MutationCreateArgs = {
-  team: TeamInput;
+export type Jury = {
+  __typename?: 'Jury';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
   allTeams: Array<Team>;
+  getAllJuries: Array<Jury>;
 };
 
 export type Team = {
@@ -40,11 +37,10 @@ export type Team = {
   name: Scalars['String']['output'];
 };
 
-export type TeamInput = {
-  contact: Scalars['String']['input'];
-  location: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-};
+export type GetAllJuriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllJuriesQuery = { __typename?: 'Query', getAllJuries: Array<{ __typename?: 'Jury', id: string, name: string }> };
 
 export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -52,6 +48,46 @@ export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllTeamsQuery = { __typename?: 'Query', allTeams: Array<{ __typename?: 'Team', location: string, name: string, contact: string }> };
 
 
+export const GetAllJuriesDocument = gql`
+    query GetAllJuries {
+  getAllJuries {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetAllJuriesQuery__
+ *
+ * To run a query within a React component, call `useGetAllJuriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllJuriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllJuriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllJuriesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllJuriesQuery, GetAllJuriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllJuriesQuery, GetAllJuriesQueryVariables>(GetAllJuriesDocument, options);
+      }
+export function useGetAllJuriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllJuriesQuery, GetAllJuriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllJuriesQuery, GetAllJuriesQueryVariables>(GetAllJuriesDocument, options);
+        }
+export function useGetAllJuriesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllJuriesQuery, GetAllJuriesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllJuriesQuery, GetAllJuriesQueryVariables>(GetAllJuriesDocument, options);
+        }
+export type GetAllJuriesQueryHookResult = ReturnType<typeof useGetAllJuriesQuery>;
+export type GetAllJuriesLazyQueryHookResult = ReturnType<typeof useGetAllJuriesLazyQuery>;
+export type GetAllJuriesSuspenseQueryHookResult = ReturnType<typeof useGetAllJuriesSuspenseQuery>;
+export type GetAllJuriesQueryResult = Apollo.QueryResult<GetAllJuriesQuery, GetAllJuriesQueryVariables>;
 export const GetAllTeamsDocument = gql`
     query GetAllTeams {
   allTeams {
