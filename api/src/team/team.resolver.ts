@@ -1,15 +1,22 @@
 import { Team } from "./team.entity";
 import { Resolver, Query, InputType, Field, Mutation, Arg } from "type-graphql";
+import { IsString, Length } from "class-validator";
 
 @InputType()
 class TeamInput implements Partial<Team> {
   @Field()
+  @IsString()
+  @Length(3, 100)
   name: string;
 
   @Field()
+  @IsString()
+  @Length(2, 100)
   location: string;
 
   @Field()
+  @IsString()
+  @Length(5, 100)
   contact: string;
 }
 
