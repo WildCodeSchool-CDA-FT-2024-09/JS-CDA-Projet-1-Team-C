@@ -16,20 +16,31 @@ import {
   Box,
   TextField,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
-  const [addTeam, { addTeamData, addTeamLoading, addTeamError }] =
-    useCreateTeamMutation();
+  const [addTeam] = useCreateTeamMutation();
+  // used to keep track of input errors
   const [inputError, setInputError] = useState({
     name: false,
     contact: false,
     location: false,
   });
+  // used for UI feedback
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // used instead of states to avoid multiple re-renders when typing
   const newTeamNameRef = useRef();
   const newTeamContactRef = useRef();
   const newTeamLocationRef = useRef();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   if (loading) return <p>Loading...</p>;
 
@@ -45,9 +56,6 @@ export default function TeamsManagement() {
     } else {
       setInputError({ ...inputError, name: true });
     }
-
-    // this is here to prevent linter error.
-    console.info(addTeamData, addTeamLoading, addTeamError);
   };
 
   const handleContactChange = () => {
@@ -70,22 +78,38 @@ export default function TeamsManagement() {
     }
   };
 
-  // the three first calls are needed to prevent the request from being made if any of the fields isn't valid.
-  const handleAddTeam = async () => {
-    handleNameChange();
-    handleContactChange();
-    handleLocationChange();
+  // this function is needed because it can set all the errors with a single call
+  const handleTeamInputValidation = () => {
+    const name = newTeamNameRef.current.value;
+    const contact = newTeamContactRef.current.value;
+    const location = newTeamLocationRef.current.value;
+    const isValidName = /.{5,100}/.test(name);
+    const isValidContact = /.{5,100}/.test(contact);
+    const isValidLocation = /.{5,100}/.test(location);
+    setInputError({
+      name: !isValidName,
+      contact: !isValidContact,
+      location: !isValidLocation,
+    });
+    return (isValidName && isValidContact && isValidLocation)
+  };
 
-    if (!inputError.name && !inputError.contact && !inputError.location) {
-      const newTeam = {
-        name: newTeamNameRef.current.value,
-        contact: newTeamContactRef.current.value,
-        location: newTeamLocationRef.current.value,
-      };
-      await addTeam({
-        refetchQueries: [{ query: GET_ALL_TEAMS }],
-        variables: { team: newTeam },
-      });
+  const handleAddTeam = async () => {
+    if (handleTeamInputValidation()) {
+      try {
+        const newTeam = {
+          name: newTeamNameRef.current.value,
+          contact: newTeamContactRef.current.value,
+          location: newTeamLocationRef.current.value,
+        };
+        await addTeam({
+          refetchQueries: [{ query: GET_ALL_TEAMS }],
+          variables: { team: newTeam },
+        });
+      } catch {
+        setOpen(true);
+        setMessage("Erreur dans l'ajout de l'équipe, le nom est-il unique ? ");
+      }
     }
   };
 
@@ -181,10 +205,7 @@ export default function TeamsManagement() {
               <TableCell align="right">
                 <Button
                   disabled={
-                    inputError.name ||
-                    inputError.contact ||
-                    inputError.location ||
-                    addTeamLoading
+                    inputError.name || inputError.contact || inputError.location
                   }
                   onClick={handleAddTeam}
                 >
@@ -195,6 +216,16 @@ export default function TeamsManagement() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
