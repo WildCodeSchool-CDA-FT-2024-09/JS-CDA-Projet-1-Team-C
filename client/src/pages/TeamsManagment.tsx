@@ -1,5 +1,9 @@
 import { useRef } from "react";
-import { useGetAllTeamsQuery } from "../types/graphql-types";
+import { GET_ALL_TEAMS } from "../schemas/queries";
+import {
+  useGetAllTeamsQuery,
+  useCreateTeamMutation
+} from "../types/graphql-types";
 import {
   TableContainer,
   Table,
@@ -16,6 +20,8 @@ import {
 
 export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
+  const [addTeam, { addTeamData, addTeamLoading, addTeamError }] =
+    useCreateTeamMutation();
   const newTeamNameRef = useRef();
   const newTeamContactRef = useRef();
   const newTeamLocationRef = useRef();
@@ -27,9 +33,13 @@ export default function TeamsManagement() {
   const handleAddTeam = () => {
     const newTeam = {
       name: newTeamNameRef.current.value,
+      contact: newTeamContactRef.current.value,
+      location: newTeamLocationRef.current.value,
     };
-    console.info(newTeam);
+    addTeam({ refetchQueries: [{ query: GET_ALL_TEAMS }] ,variables: { team: newTeam } });
   };
+
+  console.info(addTeamData, addTeamLoading, addTeamError)
 
   return (
     <>
