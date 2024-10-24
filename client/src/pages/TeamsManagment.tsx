@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { GET_ALL_TEAMS } from "../schemas/queries";
 import {
   useGetAllTeamsQuery,
-  useCreateTeamMutation
+  useCreateTeamMutation,
 } from "../types/graphql-types";
 import {
   TableContainer,
@@ -22,6 +22,11 @@ export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
   const [addTeam, { addTeamData, addTeamLoading, addTeamError }] =
     useCreateTeamMutation();
+  const [inputError, setInputError] = useState({
+    name: false,
+    contact: false,
+    location: false,
+  });
   const newTeamNameRef = useRef();
   const newTeamContactRef = useRef();
   const newTeamLocationRef = useRef();
@@ -30,16 +35,59 @@ export default function TeamsManagement() {
 
   if (error) return <p>Error :(</p>;
 
-  const handleAddTeam = () => {
-    const newTeam = {
-      name: newTeamNameRef.current.value,
-      contact: newTeamContactRef.current.value,
-      location: newTeamLocationRef.current.value,
-    };
-    addTeam({ refetchQueries: [{ query: GET_ALL_TEAMS }] ,variables: { team: newTeam } });
+  // these three functions are used to validate the inputs of the new team
+  // they impact the clickability of the button.
+  const handleNameChange = () => {
+    const name = newTeamNameRef.current.value;
+    const isValidName = /.{5,100}/.test(name);
+    if (isValidName) {
+      setInputError({ ...inputError, name: false });
+    } else {
+      setInputError({ ...inputError, name: true });
+    }
+
+    // this is here to prevent linter error.
+    console.info(addTeamData, addTeamLoading, addTeamError);
   };
 
-  console.info(addTeamData, addTeamLoading, addTeamError)
+  const handleContactChange = () => {
+    const contact = newTeamContactRef.current.value;
+    const isValidContact = /.{5,100}/.test(contact);
+    if (isValidContact) {
+      setInputError({ ...inputError, contact: false });
+    } else {
+      setInputError({ ...inputError, contact: true });
+    }
+  };
+
+  const handleLocationChange = () => {
+    const location = newTeamLocationRef.current.value;
+    const isValidLocation = /.{5,100}/.test(location);
+    if (isValidLocation) {
+      setInputError({ ...inputError, location: false });
+    } else {
+      setInputError({ ...inputError, location: true });
+    }
+  };
+
+  // the three first calls are needed to prevent the request from being made if any of the fields isn't valid.
+  const handleAddTeam = async () => {
+    handleNameChange();
+    handleContactChange();
+    handleLocationChange();
+
+    if (!inputError.name && !inputError.contact && !inputError.location) {
+      const newTeam = {
+        name: newTeamNameRef.current.value,
+        contact: newTeamContactRef.current.value,
+        location: newTeamLocationRef.current.value,
+      };
+      await addTeam({
+        refetchQueries: [{ query: GET_ALL_TEAMS }],
+        variables: { team: newTeam },
+      });
+    }
+  };
 
   return (
     <>
@@ -88,6 +136,14 @@ export default function TeamsManagement() {
                   label="name"
                   variant="outlined"
                   fullWidth
+                  required
+                  onChange={handleNameChange}
+                  error={inputError.name}
+                  helperText={
+                    inputError.name
+                      ? "Entrez un nom unique de plus de 5 caractères"
+                      : ""
+                  }
                 />
               </TableCell>
               <TableCell>
@@ -96,6 +152,14 @@ export default function TeamsManagement() {
                   label="contact"
                   variant="outlined"
                   fullWidth
+                  required
+                  onChange={handleContactChange}
+                  error={inputError.contact}
+                  helperText={
+                    inputError.contact
+                      ? "Entrez un contact de plus de 5 caractères"
+                      : ""
+                  }
                 />
               </TableCell>
               <TableCell>
@@ -104,10 +168,28 @@ export default function TeamsManagement() {
                   label="provenance"
                   variant="outlined"
                   fullWidth
+                  required
+                  onChange={handleLocationChange}
+                  error={inputError.location}
+                  helperText={
+                    inputError.location
+                      ? "Entrez une provenance de plus de 5 caractères"
+                      : ""
+                  }
                 />
               </TableCell>
               <TableCell align="right">
-                <Button onClick={handleAddTeam}>AJOUTER</Button>
+                <Button
+                  disabled={
+                    inputError.name ||
+                    inputError.contact ||
+                    inputError.location ||
+                    addTeamLoading
+                  }
+                  onClick={handleAddTeam}
+                >
+                  AJOUTER
+                </Button>
               </TableCell>
             </TableRow>
           </TableBody>
