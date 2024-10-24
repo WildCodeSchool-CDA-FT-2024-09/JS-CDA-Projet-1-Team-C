@@ -30,7 +30,7 @@ export default function JuryAddRow() {
   const handleNameValidation = () => {
     const value = nameRef.current && nameRef.current.value;
     return value
-      ? /.{5,100}/.test(value) && /^[A-Za-z0-9]+$/.test(value)
+      ? /.{5,100}/.test(value) && /^[A-Za-z0-9_-\s]+$/.test(value)
       : false;
   };
 
