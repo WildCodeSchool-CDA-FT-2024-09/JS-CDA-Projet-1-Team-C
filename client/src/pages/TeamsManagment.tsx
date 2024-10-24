@@ -10,7 +10,7 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import CreateNewTeam from "./CreateNewTeam";
+import TeamRow from "../components/TeamRow";
 
 export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
@@ -56,7 +56,7 @@ export default function TeamsManagement() {
                   <TableCell>{team.location}</TableCell>
                 </TableRow>
               ))}
-            <CreateNewTeam />
+            <TeamRow />
           </TableBody>
         </Table>
       </TableContainer>

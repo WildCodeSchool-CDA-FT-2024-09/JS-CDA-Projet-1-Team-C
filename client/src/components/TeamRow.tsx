@@ -10,7 +10,7 @@ import {
   Alert,
 } from "@mui/material";
 
-export default function CreateNewTeam() {
+export default function TeamRow() {
   const [addTeam] = useCreateTeamMutation();
 
   // used to keep track of input errors
