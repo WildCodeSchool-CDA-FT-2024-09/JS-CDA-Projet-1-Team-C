@@ -7,3 +7,12 @@ export const CREATE_NEW_JURY = gql`
     }
   }
 `;
+export const CREATE_TEAM = gql`
+  mutation createTeam($team: TeamInput!) {
+    create(team: $team) {
+      contact
+      location
+      name
+    }
+  }
+`;

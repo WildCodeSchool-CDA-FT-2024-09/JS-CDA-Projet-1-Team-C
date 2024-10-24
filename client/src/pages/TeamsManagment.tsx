@@ -8,8 +8,9 @@ import {
   TableBody,
   Paper,
   Typography,
-  Box
+  Box,
 } from "@mui/material";
+import TeamRow from "../components/TeamRow";
 
 export default function TeamsManagement() {
   const { loading, error, data } = useGetAllTeamsQuery();
@@ -36,8 +37,9 @@ export default function TeamsManagement() {
           <TableHead>
             <TableRow>
               <TableCell>Nom</TableCell>
-              <TableCell align="right">Contact</TableCell>
-              <TableCell align="right">Provenance</TableCell>
+              <TableCell>Contact</TableCell>
+              <TableCell>Provenance</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -50,10 +52,11 @@ export default function TeamsManagement() {
                   <TableCell component="th" scope="row">
                     {team.name}
                   </TableCell>
-                  <TableCell align="right">{team.contact}</TableCell>
-                  <TableCell align="right">{team.location}</TableCell>
+                  <TableCell>{team.contact}</TableCell>
+                  <TableCell>{team.location}</TableCell>
                 </TableRow>
               ))}
+            <TeamRow />
           </TableBody>
         </Table>
       </TableContainer>
