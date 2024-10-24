@@ -23,6 +23,16 @@ export type Jury = {
   name: Scalars['String']['output'];
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  create: Team;
+};
+
+
+export type MutationCreateArgs = {
+  team: TeamInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   allTeams: Array<Team>;
@@ -37,6 +47,19 @@ export type Team = {
   name: Scalars['String']['output'];
 };
 
+export type TeamInput = {
+  contact: Scalars['String']['input'];
+  location: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type CreateTeamMutationVariables = Exact<{
+  team: TeamInput;
+}>;
+
+
+export type CreateTeamMutation = { __typename?: 'Mutation', create: { __typename?: 'Team', contact: string, location: string, name: string } };
+
 export type GetAllJuriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -48,6 +71,41 @@ export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllTeamsQuery = { __typename?: 'Query', allTeams: Array<{ __typename?: 'Team', location: string, name: string, contact: string }> };
 
 
+export const CreateTeamDocument = gql`
+    mutation createTeam($team: TeamInput!) {
+  create(team: $team) {
+    contact
+    location
+    name
+  }
+}
+    `;
+export type CreateTeamMutationFn = Apollo.MutationFunction<CreateTeamMutation, CreateTeamMutationVariables>;
+
+/**
+ * __useCreateTeamMutation__
+ *
+ * To run a mutation, you first call `useCreateTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTeamMutation, { data, loading, error }] = useCreateTeamMutation({
+ *   variables: {
+ *      team: // value for 'team'
+ *   },
+ * });
+ */
+export function useCreateTeamMutation(baseOptions?: Apollo.MutationHookOptions<CreateTeamMutation, CreateTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTeamMutation, CreateTeamMutationVariables>(CreateTeamDocument, options);
+      }
+export type CreateTeamMutationHookResult = ReturnType<typeof useCreateTeamMutation>;
+export type CreateTeamMutationResult = Apollo.MutationResult<CreateTeamMutation>;
+export type CreateTeamMutationOptions = Apollo.BaseMutationOptions<CreateTeamMutation, CreateTeamMutationVariables>;
 export const GetAllJuriesDocument = gql`
     query GetAllJuries {
   getAllJuries {
