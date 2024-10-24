@@ -10,6 +10,6 @@ export class Jury extends BaseEntity {
   id: number;
 
   @Field(() => String)
-  @Column({ type: "varchar", width: 30 })
+  @Column({ unique: true, type: "varchar", width: 30 })
   name: string;
 }

@@ -1,7 +1,6 @@
 import { Jury } from "./jury.entity";
-import { Resolver, Query, InputType } from "type-graphql";
+import { Resolver, Query } from "type-graphql";
 
-@InputType()
 @Resolver(Jury)
 export default class JuryResolver {
   @Query(() => [Jury])
