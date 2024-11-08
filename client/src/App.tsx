@@ -1,24 +1,24 @@
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
+import { Outlet } from "react-router";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
-import { Outlet } from "react-router";
+import { Stack } from "@mui/material";
 import NotificationProvider from "./contexts/NotificationContext";
-import NavBar from "./components/NavBar";
 import DialogProvider from "./contexts/DialogContext";
-import "./global.css"
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import "./global.css";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1879CD',
+      main: "#1879CD",
       // light: will be calculated from palette.primary.main,
       // dark: will be calculated from palette.primary.main,
-      contrastText: '#FFFFFF'
+      contrastText: "#FFFFFF",
     },
     secondary: {
-      main: '#393939',
-      contrastText: '#FFFFFF',
+      main: "#393939",
+      contrastText: "#FFFFFF",
     },
   },
 });
@@ -28,23 +28,18 @@ function App() {
     <ThemeProvider theme={theme}>
       <DialogProvider>
         <NotificationProvider>
-
-          <Grid size={12}>
+          <Stack
+            sx={{
+              minHeight: "100vh",
+              flexDirection: "column",
+            }}
+          >
             <NavBar />
-          </Grid>
-          <Container fixed>
-            <Box sx={{ flexGrow: 1 }}>
-              <Grid container spacing={2}>
-                <Grid size={12}>
-                  <Outlet />
-                </Grid>
-              </Grid>
-            </Box>
-          </Container>
-          <Grid size={12}>
-            <div>FLL Ranker 2024</div>
-          </Grid>
-
+            <Container fixed sx={{ flexGrow: 1 }}>
+              <Outlet />
+            </Container>
+            <Footer />
+          </Stack>
         </NotificationProvider>
       </DialogProvider>
     </ThemeProvider>

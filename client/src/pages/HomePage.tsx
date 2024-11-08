@@ -1,83 +1,109 @@
 import Grid from "@mui/material/Grid2";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import BtnLink from "../components/BtnLink";
-import imgFirst from "../../assets/images/pexels-vanessa-loring-7868838.jpg";
-import imgSnd from "../../assets/images/pexels-vanessa-loring-7868890.jpg";
+import { Stack, Typography } from "@mui/material";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles("dark", {
-    backgroundColor: "#1A2027",
-  }),
-}));
+const imgStyle = { width: "100%", height: "auto", borderRadius: 8 };
 
 export default function HomePage() {
   return (
     <>
       <Grid container spacing={5} justifyContent="center" sx={{ marginTop: 9 }}>
+        <Grid size={12}>
+          <Stack
+            direction="column"
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+            minHeight={300}
+          >
+            <Typography variant="h1" gutterBottom>
+              Découvrez le classement !
+            </Typography>
+            <Typography variant="h2" gutterBottom>
+              Résultats des compétitions FLL
+            </Typography>
+          </Stack>
+        </Grid>
         <Grid size={5}>
           <img
-            src={imgSnd}
-            style={{ width: "100%", height: "auto" }}
+            src={
+              "https://firstlegoleaguefrance.fr/wp-content/uploads/2024/05/FLLWF2023_015-2048x1365.jpeg"
+            }
+            style={imgStyle}
             alt="Un enfant qui construit un robot"
           />
         </Grid>
         <Grid size={5}>
-          <Item>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil
-            debitis cum accusamus amet illo at, consequatur in neque repellendus
-            modi odio ab sunt quo commodi dignissimos culpa expedita est facere?
-            Commodi necessitatibus excepturi ducimus dolorem accusamus animi
-            magni earum nihil quaerat. Labore optio possimus earum asperiores
-            error placeat itaque perferendis pariatur accusamus. Voluptas
-            numquam laborum pariatur ab obcaecati! Nam, animi? Labore optio
-            possimus earum asperiores error placeat itaque perferendis pariatur
-            accusamus. Voluptas numquam laborum pariatur ab obcaecati! Nam,
-            animi?
-          </Item>
+          <Typography variant="h4" gutterBottom>
+            Un challenge ouvert à tous
+          </Typography>
+          <Typography variant="body1">
+            La FLL Challenge permet aux enfants de révéler leurs talents, qu’ils
+            soit doué en mécanique, en design, en programmation ou simplement en
+            sciences ! Les équipes s'affrontent sur des épreuves de robotique et
+            passent un oral devant le jury.
+          </Typography>
         </Grid>
         <Grid size={5}>
-          <Item>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil
-            debitis cum accusamus amet illo at, consequatur in neque repellendus
-            modi odio ab sunt quo commodi dignissimos culpa expedita est facere?
-            Commodi necessitatibus excepturi ducimus dolorem accusamus animi
-            magni earum nihil quaerat. Labore optio possimus earum asperiores
-            error placeat itaque perferendis pariatur accusamus. Voluptas
-            numquam laborum pariatur ab obcaecati! Nam, animi? Labore optio
-            possimus earum asperiores error placeat itaque perferendis pariatur
-            accusamus. Voluptas numquam laborum pariatur ab obcaecati! Nam,
-            animi?
-          </Item>
+          <Typography variant="h4" gutterBottom>
+            Découvrez les résultats
+          </Typography>
+          <Typography variant="body1">
+            A la fin de la journée, vous aurez accès au classement général des
+            équipes, et aux prix décernés en détail.
+          </Typography>
         </Grid>
         <Grid size={5}>
           <img
-            src={imgFirst}
-            style={{ width: "100%", height: "auto" }}
-            alt="Trois enfants qui jouent avec un robot"
+            src={
+              "https://firstlegoleaguefrance.fr/wp-content/uploads/2024/05/finale-fll-nantes.jpg"
+            }
+            style={imgStyle}
+            alt="beaucoup de gens autour d'une piste de compétition"
           />
         </Grid>
-      </Grid>
-
-      <Grid container spacing={2} size={12} marginTop="6vh">
-        <Grid size={4}></Grid>
-        <Grid container spacing={2} size={6}>
-          <Grid size={8}>
-            <BtnLink to="/ranking" content="Voir les classements" />
-          </Grid>
-          <Grid size={8}>
-            <BtnLink to="/ranking" content="Voir les classements" />
-          </Grid>
-          <Grid size={8}>
-            <BtnLink to="/ranking" content="Voir les classements" />
-          </Grid>
+        <Grid size={12}>
+          <Stack
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+            minHeight={200}
+          >
+            <BtnLink to="competition/3/ranking" content="Nationale Paris" />
+            <BtnLink
+              to="competition/3/ranking"
+              content="Finale régionale Nantes"
+            />
+            <BtnLink
+              to="competition/3/ranking"
+              content="Finale régionale Bordeaux"
+            />
+            <BtnLink
+              to="competition/3/ranking"
+              content="Internationale de Mulhouse"
+            />
+          </Stack>
         </Grid>
-        <Grid size={4}></Grid>
+        <Grid size={5}>
+          <img
+            src={
+              "https://firstlegoleaguefrance.fr/wp-content/uploads/2024/05/FLL_E_Team_gelb_orginal-e7cb309b.jpg"
+            }
+            style={imgStyle}
+            alt="Un enfant qui construit un robot"
+          />
+        </Grid>
+        <Grid size={5}>
+          <Typography variant="h4" gutterBottom>
+            Relisez vos feuilles d'évaluation
+          </Typography>
+          <Typography variant="body1">
+            Les coachs des équipes ont accès aux feullles d'évaluation des jurys
+            à la fin de l'évènement, analysez vos résultats et faites encore
+            mieux l'année prochaine !
+          </Typography>
+        </Grid>
       </Grid>
     </>
   );

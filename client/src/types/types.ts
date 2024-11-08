@@ -46,5 +46,34 @@ export type DataHandlerResult = {
 };
 
 export type JuriesOfCompetitionRefetchType = (
-  variables?: Partial<Exact<{ competitionId: number }>> | undefined,
+  variables?: Partial<Exact<{ competitionId: number }>> | undefined
 ) => Promise<ApolloQueryResult<GetJuriesOfCompetitionQuery>>;
+
+export type MinimalTeam = {
+  id: number;
+  name: string;
+};
+
+export type MinimalSession = {
+  startTime: string;
+  endTime: string;
+  id: number;
+  team: {
+    __typename?: "Team";
+    id: number;
+    name: string;
+  };
+  jury: {
+    __typename?: "Jury";
+    id: number;
+  };
+};
+
+export type SessionCellProps = {
+  initialSession: MinimalSession | undefined;
+  teams: MinimalTeam[] | undefined;
+  startTime: string;
+  endTime: string;
+  competitionId: number;
+  juryId: number;
+};

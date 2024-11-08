@@ -10,6 +10,7 @@ import TeamsManagement from "./pages/TeamsManagement.tsx";
 import JuriesManagement from "./pages/JuriesManagement.tsx";
 import CompetitionsManagement from "./pages/CompetitionsManagement.tsx";
 import SessionsManagement from "./pages/SessionsManagement.tsx";
+import RankingNotFound from "./pages/RankingNotFound.tsx";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "juries",
         element: <Juries />,
+      },
+      {
+        path: "competition/:competitionId/ranking",
+        element: <RankingNotFound />,
       },
       {
         path: "manage",
@@ -65,5 +70,5 @@ createRoot(document.getElementById("root")!).render(
     <ApolloProvider client={connexion}>
       <RouterProvider router={router} />
     </ApolloProvider>
-  </StrictMode>,
+  </StrictMode>
 );

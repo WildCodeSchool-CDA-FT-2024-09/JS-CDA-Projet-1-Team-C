@@ -3,7 +3,7 @@ import { Resolver, Query, Mutation, InputType, Field, Arg } from "type-graphql";
 import { Jury } from "./jury.entity";
 import { User } from "./../user/user.entity";
 import { Competition } from "./../competition/competition.entity";
-import { DeleteResponseStatus } from "../types/deleteResponseStatus";
+import { DeleteResponseStatus } from "../utilities/deleteResponseStatus";
 
 @InputType()
 class CreateJuryInput {

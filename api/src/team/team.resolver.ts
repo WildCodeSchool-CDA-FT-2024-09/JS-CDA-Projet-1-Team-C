@@ -1,8 +1,9 @@
 import { Team } from "./team.entity";
 import { Resolver, Query, InputType, Field, Mutation, Arg } from "type-graphql";
 import { IsNumber, IsString, IsOptional, Length } from "class-validator";
-import { DeleteResponseStatus } from "../types/deleteResponseStatus";
+import { DeleteResponseStatus } from "../utilities/deleteResponseStatus";
 import { Competition } from "../competition/competition.entity";
+import IdInput from "../utilities/idInput";
 
 @InputType()
 class TeamInput implements Partial<Team> {
@@ -30,13 +31,6 @@ class TeamInput implements Partial<Team> {
   @IsNumber()
   @IsOptional()
   competitionId?: number;
-}
-
-@InputType()
-class TeamIdInput implements Partial<Team> {
-  @Field({ nullable: true })
-  @IsNumber()
-  id: number;
 }
 
 @Resolver(Team)
@@ -85,7 +79,7 @@ export default class TeamResolver {
   }
 
   @Mutation(() => DeleteResponseStatus)
-  async deleteTeam(@Arg("team") targetTeam: TeamIdInput) {
+  async deleteTeam(@Arg("team") targetTeam: IdInput) {
     try {
       const teamToDelete = await Team.findOneBy({ id: targetTeam.id });
 

@@ -88,7 +88,7 @@ export const DELETE_COMPETITION = gql`
 `;
 
 export const DELETE_TEAM = gql`
-  mutation deleteTeam($team: TeamIdInput!) {
+  mutation deleteTeam($team: IdInput!) {
     deleteTeam(team: $team) {
       success
       message
@@ -100,6 +100,26 @@ export const CREATE_SESSION = gql`
   mutation createSession($session: SessionInput!) {
     createSession(session: $session) {
       id
+    }
+  }
+`;
+
+export const DELETE_SESSION = gql`
+  mutation deleteSession($session: IdInput!) {
+    deleteSession(session: $session) {
+      message
+      success
+    }
+  }
+`;
+
+export const EDIT_SESSION = gql`
+  mutation editSession($session: ModifyTeamOfSessionInput!) {
+    editSession(session: $session) {
+      team {
+        id
+        name
+      }
     }
   }
 `;
