@@ -28,13 +28,14 @@ export default function Juries() {
   // } = useGetAllJuriesQuery();
 
   // if (loadingCompetitions) return <p>Loading...</p>;
-
   // if (errorCompetitions) return <p>Error :(</p>;
 
-  // const jury = juriesData?.getAllJuries.find((jury) =>
+  // const juries = juriesData?.getAllJuries.filter((jury) =>
   //   jury.users.find((user) => user.id === jurorId)
   // );
-  // console.info(jury);
+  // console.info("juré 1:", jurorId);
+  // console.info("jurys avec le juré 1 :", juries);
+  // console.info("compétition du jury 1 : ", juries[0].competition);
 
   //competition = competitionsData.getAllCompetitions.filter((competition) => (competition === jury.competition));
 
