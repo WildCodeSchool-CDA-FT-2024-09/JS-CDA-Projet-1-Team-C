@@ -27,6 +27,16 @@ export default function CompetitionsManagement() {
   // aliasing the data for legibility
   const competition = data?.getCompetitionById;
   const teams = data?.getCompetitionById.teams;
+  const sessions = data?.getCompetitionById.sessions;
+
+  const filterSessionByStartTimeAndJuryId = (
+    startTime: string,
+    juryId: number,
+  ) => {
+    return sessions?.find(
+      (session) => session.jury.id === juryId && session.startTime === startTime 
+    );
+  };
 
   const stickyColumnStyle = {
     position: "sticky",
@@ -92,6 +102,7 @@ export default function CompetitionsManagement() {
                 {competition &&
                   competition.juries.map((jury) => (
                     <SessionCell
+                    session={filterSessionByStartTimeAndJuryId(timeSlot.startTime,jury.id)}
                       juryId={jury.id}
                       competitionId={parseInt(competitionId as string)}
                       startTime={timeSlot.startTime}

@@ -44,7 +44,7 @@ export class Competition extends BaseEntity {
   @JoinTable()
   teams: Team[];
 
-  @Field(() => Session)
+  @Field(() => [Session])
   @OneToMany(() => Session, (session) => session.competition)
-  sessions: Session;
+  sessions?: [Session];
 }

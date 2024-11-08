@@ -57,6 +57,10 @@ export default class CompetitionResolver {
           users: true,
         },
         teams: true,
+        sessions: {
+          team: true,
+          jury: true,
+        },
       },
     });
   }

@@ -2,6 +2,7 @@ import { MenuItem, Select, SelectChangeEvent, TableCell } from "@mui/material";
 import { useState } from "react";
 import { useSessionsOperations } from "../services/sessions";
 import { useNotification } from "../hooks/useNotification";
+import { Session } from "../types/graphql-types";
 
 type MinimalTeam = {
   id: number;
@@ -9,6 +10,7 @@ type MinimalTeam = {
 };
 
 type SessionCellProps = {
+  session: Session | undefined;
   teams: MinimalTeam[];
   startTime: string;
   endTime: string;
@@ -17,6 +19,7 @@ type SessionCellProps = {
 };
 
 export default function SessionCell({
+  session,
   teams,
   juryId,
   competitionId,
@@ -32,8 +35,8 @@ export default function SessionCell({
     id: 0,
     name: "disponible",
   };
-
-  const [selectedTeam, setSelectedTeam] = useState<MinimalTeam>(noTeam);
+  const defaultTeam = session ? session.team : noTeam;
+  const [selectedTeam, setSelectedTeam] = useState<MinimalTeam>(defaultTeam);
 
   const submitCreation = async (targetTeam: MinimalTeam) => {
     const { success, message } = await handleAddSession(

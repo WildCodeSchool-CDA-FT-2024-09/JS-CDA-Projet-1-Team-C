@@ -75,6 +75,7 @@ export const GET_COMPETITIONS = gql`
   }
 `;
 
+// This query is mainly used for the Planning page ( SessionsManagement)
 export const GET_COMPETITION_BY_ID = gql`
   query GetCompetitionById($competitionId: Float!) {
     getCompetitionById(competitionId: $competitionId) {
@@ -89,7 +90,19 @@ export const GET_COMPETITION_BY_ID = gql`
       teams {
         name
         id
-      }  
+      }
+      sessions {
+        startTime
+        endTime
+        id
+        team {
+          id
+          name
+        }
+        jury {
+          id
+        }
+      }
     }
   }
 `;
@@ -101,7 +114,7 @@ export const GET_TEAMS_OF_COMPETITION_BY_ID = gql`
       id
       location
       name
-      teams{
+      teams {
         name
         contact
         location
@@ -110,5 +123,3 @@ export const GET_TEAMS_OF_COMPETITION_BY_ID = gql`
     }
   }
 `;
-
-
