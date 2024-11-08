@@ -6,6 +6,7 @@ import {
 } from "../types/graphql-types";
 import ManageJuryAddRow from "../components/ManageJuryAddRow";
 import ManageJuryRow from "../components/ManageJuryRow";
+import MiniNavbar from "../components/MiniNavbar";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -37,13 +38,12 @@ export default function JuriesManagement() {
         >
           <Stack spacing={1} sx={{ alignItems: "center" }}>
             <Typography variant="h2" component="h1">
-              Gestion des jurys
-            </Typography>
-            <Typography variant="h4" component="h3">
-              Compétition : {data && data.getCompetitionById.name}
+              Jurys {data && data.getCompetitionById.name}
             </Typography>
           </Stack>
         </Box>
+
+        <MiniNavbar />
 
         <TableContainer component={Paper} sx={{ maxHeight: "60vh" }}>
           <Table

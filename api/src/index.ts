@@ -8,6 +8,7 @@ import TeamResolver from "./team/team.resolver";
 import JuryResolver from "./jury/jury.resolver";
 import UserResolver from "./user/user.resolver";
 import CompetitionResolver from "./competition/competition.resolver";
+import SessionResolver from "./session/session.resolver";
 
 dotenv.config();
 const { API_PORT } = process.env;
@@ -15,7 +16,13 @@ const { API_PORT } = process.env;
 (async () => {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [TeamResolver, JuryResolver, UserResolver, CompetitionResolver],
+    resolvers: [
+      TeamResolver,
+      JuryResolver,
+      UserResolver,
+      CompetitionResolver,
+      SessionResolver,
+    ],
     validate: true,
   });
 

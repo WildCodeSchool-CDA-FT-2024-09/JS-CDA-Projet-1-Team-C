@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGetTeamsOfCompetitionByIdQuery } from "../types/graphql-types";
+import TeamRow from "../components/TeamRow";
+import MiniNavbar from "../components/MiniNavbar";
 import {
   TableContainer,
   Table,
@@ -11,7 +13,6 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import TeamRow from "../components/TeamRow";
 
 export default function TeamsManagement() {
   const competitionId = parseInt(useParams().competitionId as string);
@@ -38,6 +39,8 @@ export default function TeamsManagement() {
           </Typography>
         </Box>
 
+        <MiniNavbar />
+
         <TableContainer component={Paper} sx={{ maxHeight: "60vh" }}>
           <Table
             stickyHeader
@@ -61,14 +64,20 @@ export default function TeamsManagement() {
                 competitionId={competitionId}
               />
               {data &&
-                data.getCompetitionById.teams.reduce((aggregat: JSX.Element[], team) => {
-                  aggregat.unshift(
-                    <TeamRow
-                      key={team.id}
-                      mode={"consult"}
-                      team={team}
-                      refetch={refetch}
-                    />); return aggregat;}, [])}
+                data.getCompetitionById.teams.reduce(
+                  (aggregat: JSX.Element[], team) => {
+                    aggregat.unshift(
+                      <TeamRow
+                        key={team.id}
+                        mode={"consult"}
+                        team={team}
+                        refetch={refetch}
+                      />,
+                    );
+                    return aggregat;
+                  },
+                  [],
+                )}
             </TableBody>
           </Table>
         </TableContainer>

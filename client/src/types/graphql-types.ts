@@ -24,6 +24,7 @@ export type Competition = {
   juries: Array<Jury>;
   location: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  sessions: Session;
   teams: Array<Team>;
 };
 
@@ -54,6 +55,7 @@ export type Jury = {
   competition: Competition;
   id: Scalars['Int']['output'];
   name: Scalars['String']['output'];
+  sessions: Array<Session>;
   users: Array<User>;
 };
 
@@ -66,6 +68,7 @@ export type Mutation = {
   addUserToJury: User;
   createCompetition: Competition;
   createNewJury: Jury;
+  createSession: Session;
   createTeam: Team;
   deleteJury: DeleteResponseStatus;
   deleteTeam: DeleteResponseStatus;
@@ -88,6 +91,11 @@ export type MutationCreateCompetitionArgs = {
 
 export type MutationCreateNewJuryArgs = {
   data: CreateJuryInput;
+};
+
+
+export type MutationCreateSessionArgs = {
+  session: SessionInput;
 };
 
 
@@ -150,6 +158,24 @@ export type Role = {
   label: Scalars['String']['output'];
 };
 
+export type Session = {
+  __typename?: 'Session';
+  competition: Competition;
+  endTime: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  jury: Jury;
+  startTime: Scalars['String']['output'];
+  team: Team;
+};
+
+export type SessionInput = {
+  competitionId: Scalars['Float']['input'];
+  endTime: Scalars['String']['input'];
+  juryId: Scalars['Float']['input'];
+  startTime: Scalars['String']['input'];
+  teamId: Scalars['Float']['input'];
+};
+
 export type Team = {
   __typename?: 'Team';
   competitions: Array<Competition>;
@@ -157,6 +183,7 @@ export type Team = {
   id: Scalars['Int']['output'];
   location: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  sessions: Array<Session>;
 };
 
 export type TeamIdInput = {
@@ -256,6 +283,13 @@ export type DeleteTeamMutationVariables = Exact<{
 
 
 export type DeleteTeamMutation = { __typename?: 'Mutation', deleteTeam: { __typename?: 'DeleteResponseStatus', success: boolean, message?: string | null } };
+
+export type CreateSessionMutationVariables = Exact<{
+  session: SessionInput;
+}>;
+
+
+export type CreateSessionMutation = { __typename?: 'Mutation', createSession: { __typename?: 'Session', id: number } };
 
 export type GetAllJuriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -648,6 +682,39 @@ export function useDeleteTeamMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteTeamMutationHookResult = ReturnType<typeof useDeleteTeamMutation>;
 export type DeleteTeamMutationResult = Apollo.MutationResult<DeleteTeamMutation>;
 export type DeleteTeamMutationOptions = Apollo.BaseMutationOptions<DeleteTeamMutation, DeleteTeamMutationVariables>;
+export const CreateSessionDocument = gql`
+    mutation createSession($session: SessionInput!) {
+  createSession(session: $session) {
+    id
+  }
+}
+    `;
+export type CreateSessionMutationFn = Apollo.MutationFunction<CreateSessionMutation, CreateSessionMutationVariables>;
+
+/**
+ * __useCreateSessionMutation__
+ *
+ * To run a mutation, you first call `useCreateSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSessionMutation, { data, loading, error }] = useCreateSessionMutation({
+ *   variables: {
+ *      session: // value for 'session'
+ *   },
+ * });
+ */
+export function useCreateSessionMutation(baseOptions?: Apollo.MutationHookOptions<CreateSessionMutation, CreateSessionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSessionMutation, CreateSessionMutationVariables>(CreateSessionDocument, options);
+      }
+export type CreateSessionMutationHookResult = ReturnType<typeof useCreateSessionMutation>;
+export type CreateSessionMutationResult = Apollo.MutationResult<CreateSessionMutation>;
+export type CreateSessionMutationOptions = Apollo.BaseMutationOptions<CreateSessionMutation, CreateSessionMutationVariables>;
 export const GetAllJuriesDocument = gql`
     query GetAllJuries {
   getAllJuries {

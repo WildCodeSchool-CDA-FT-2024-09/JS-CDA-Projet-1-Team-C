@@ -11,6 +11,7 @@ import {
 import { Field, ObjectType, Int } from "type-graphql";
 import { Jury } from "../jury/jury.entity";
 import { Team } from "../team/team.entity";
+import { Session } from "../session/session.entity";
 
 @ObjectType()
 @Entity()
@@ -42,4 +43,8 @@ export class Competition extends BaseEntity {
   @ManyToMany(() => Team, (team) => team.competitions)
   @JoinTable()
   teams: Team[];
+
+  @Field(() => Session)
+  @OneToMany(() => Session, (session) => session.competition)
+  sessions: Session;
 }

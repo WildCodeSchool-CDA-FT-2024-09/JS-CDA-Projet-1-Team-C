@@ -95,3 +95,11 @@ export const DELETE_TEAM = gql`
     }
   }
 `;
+
+export const CREATE_SESSION = gql`
+  mutation createSession($session: SessionInput!) {
+    createSession(session: $session) {
+      id
+    }
+  }
+`;

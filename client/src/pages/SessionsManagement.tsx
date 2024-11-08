@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useGetCompetitionByIdQuery } from "../types/graphql-types";
 import SessionCell from "../components/SessionCell";
+import MiniNavbar from "../components/MiniNavbar";
 
 export default function CompetitionsManagement() {
   const { competitionId } = useParams();
@@ -36,17 +37,17 @@ export default function CompetitionsManagement() {
   };
 
   const timeSlots = [
-    "09h00\n\n09h45",
-    "09h45\n\n10h30",
-    "10h30\n\n11h15",
-    "11h15\n\n12h00",
-    "12h00\n\n12h45",
-    "12h45\n\n13h30",
-    "13h30\n\n14h15",
-    "14h15\n\n15h00",
-    "15h00\n\n15h45",
-    "15h45\n\n16h30",
-    "16h30\n\n17h00",
+    { startTime: "09:00", endTime: "09:45" },
+    { startTime: "09:45", endTime: "10:30" },
+    { startTime: "10:30", endTime: "11:15" },
+    { startTime: "11:15", endTime: "12:00" },
+    { startTime: "12:00", endTime: "12:45" },
+    { startTime: "12:45", endTime: "13:30" },
+    { startTime: "13:30", endTime: "14:15" },
+    { startTime: "14:15", endTime: "15:00" },
+    { startTime: "15:00", endTime: "15:45" },
+    { startTime: "15:45", endTime: "16:30" },
+    { startTime: "16:30", endTime: "17:00" },
   ];
 
   if (data)
@@ -62,6 +63,9 @@ export default function CompetitionsManagement() {
             {`Gestion planning ${competition && competition.name}`}
           </Typography>
         </Box>
+
+        <MiniNavbar />
+
         <TableContainer component={Paper} sx={{ maxHeight: "60vh" }}>
           <Table
             stickyHeader
@@ -83,10 +87,18 @@ export default function CompetitionsManagement() {
             {timeSlots.map((timeSlot) => (
               <TableRow>
                 <TableCell align="center" sx={stickyColumnStyle}>
-                  {timeSlot}
+                  {`${timeSlot.startTime}\n${timeSlot.endTime}`}
                 </TableCell>
                 {competition &&
-                  competition.juries.map(() => <SessionCell teams={teams} />)}
+                  competition.juries.map((jury) => (
+                    <SessionCell
+                      juryId={jury.id}
+                      competitionId={parseInt(competitionId as string)}
+                      startTime={timeSlot.startTime}
+                      endTime={timeSlot.endTime}
+                      teams={teams}
+                    />
+                  ))}
               </TableRow>
             ))}
           </Table>

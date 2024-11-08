@@ -5,9 +5,11 @@ import {
   PrimaryGeneratedColumn,
   BaseEntity,
   ManyToMany,
+  OneToMany,
 } from "typeorm";
 import { Field, ObjectType, Int } from "type-graphql";
 import { Competition } from "../competition/competition.entity";
+import { Session } from "../session/session.entity";
 
 @ObjectType()
 @Entity()
@@ -31,4 +33,8 @@ export class Team extends BaseEntity {
   @Field(() => [Competition])
   @ManyToMany(() => Competition, (competition) => competition.teams)
   competitions: Competition[];
+
+  @Field(() => [Session])
+  @OneToMany(() => Session, (session) => session.team)
+  sessions: Session[];
 }
