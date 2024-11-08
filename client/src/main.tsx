@@ -10,6 +10,7 @@ import TeamsManagement from "./pages/TeamsManagement.tsx";
 import JuriesManagement from "./pages/JuriesManagement.tsx";
 import CompetitionsManagement from "./pages/CompetitionsManagement.tsx";
 import SessionsManagement from "./pages/SessionsManagement.tsx";
+import Evaluation from "./pages/Evaluation.tsx";
 import RankingNotFound from "./pages/RankingNotFound.tsx";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -27,7 +28,17 @@ const router = createBrowserRouter([
       },
       {
         path: "juries",
-        element: <Juries />,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <Juries />,
+          },
+          {
+            path: "evaluation",
+            element: <Evaluation />,
+          },
+        ],
       },
       {
         path: "competition/:competitionId/ranking",

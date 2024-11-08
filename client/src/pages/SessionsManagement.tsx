@@ -18,6 +18,7 @@ export default function CompetitionsManagement() {
 
   const { loading, error, data } = useGetCompetitionByIdQuery({
     variables: { competitionId: parseInt(competitionId as string) },
+    fetchPolicy: "network-only",
   });
 
   if (loading) return <p>Loading...</p>;

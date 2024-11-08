@@ -10,6 +10,7 @@ import SessionView from "../components/SessionView";
 import { useGetJuriesByUserQuery } from "../types/graphql-types";
 
 export default function Juries() {
+  // user défini en dur en l'absence d'authentification
   const userId = 2;
 
   const [juryId, setJuryId] = React.useState<number>(1);

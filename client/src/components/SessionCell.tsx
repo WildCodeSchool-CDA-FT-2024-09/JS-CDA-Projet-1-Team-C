@@ -1,8 +1,16 @@
-import { MenuItem, Select, SelectChangeEvent, TableCell } from "@mui/material";
+import {
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TableCell,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useSessionsOperations } from "../services/sessions";
 import { useNotification } from "../hooks/useNotification";
 import { MinimalTeam, MinimalSession, SessionCellProps } from "../types/types";
+import BtnLink from "./BtnLink";
 
 export default function SessionCell({
   initialSession,
@@ -24,7 +32,9 @@ export default function SessionCell({
   };
   const defaultTeam = initialSession ? initialSession.team : noTeam;
   const [selectedTeam, setSelectedTeam] = useState<MinimalTeam>(defaultTeam);
-  const [session, setSession] = useState<MinimalSession | undefined>(initialSession);
+  const [session, setSession] = useState<MinimalSession | undefined>(
+    initialSession
+  );
 
   const submitCreation = async (targetTeam: MinimalTeam) => {
     const { success, message, createdSession } = await handleAddSession(
@@ -98,11 +108,23 @@ export default function SessionCell({
         onChange={handleSelect}
       >
         <MenuItem value="disponible">-</MenuItem>
-        {teams?.map((team) => (
-          <MenuItem key={team.id} value={team.name}>
-            {team.name}
-          </MenuItem>
-        ))}
+        {teams?.length ? (
+          teams.map((team) => (
+            <MenuItem key={team.id} value={team.name}>
+              {team.name}
+            </MenuItem>
+          ))
+        ) : (
+          <Stack flexDirection="column" gap={1} alignItems="center" justifyContent="center" marginTop={2}>
+            <Typography variant="body2" color="textSecondary">
+              Aucune équipe pour cette compétition
+            </Typography>
+            <BtnLink
+              to={`/manage/competitions/${competitionId}/teams`}
+              content="ajouter des équipes"
+            />
+          </Stack>
+        )}
       </Select>
     </TableCell>
   );

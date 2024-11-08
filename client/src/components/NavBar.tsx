@@ -7,6 +7,7 @@ import { Link as RouterLink, useLocation } from "react-router-dom";
 const pages = [
   { content: "Page d'accueil", to: "/" },
   { content: "Tableau de bord", to: "/manage/competitions" },
+  { content: "Mon planning", to: "/juries" },
 ];
 
 function NavBar() {

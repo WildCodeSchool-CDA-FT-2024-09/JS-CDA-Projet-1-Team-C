@@ -1,22 +1,16 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import BtnLink from "../components/BtnLink";
 
 type Session = {
-  // id: number;
   startTime: string;
   endTime: string;
   teamName: string;
-  // competition: { id: number; name: string };
-  // team: { id: number; name: string };
 };
 
-// type SessionViewProps = {
-//   session: Session;
-// };
-
 export default function SessionView({ startTime, endTime, teamName }: Session) {
-  //{ session }: SessionViewProps
   return (
     <Card sx={{ maxWidth: 250 }}>
       <CardContent>
@@ -25,6 +19,9 @@ export default function SessionView({ startTime, endTime, teamName }: Session) {
         </Typography>
         <Typography variant="body2"> Commence à : {startTime}</Typography>
         <Typography variant="body2"> Termine à : {endTime}</Typography>
+        <Stack justifyContent="center" marginTop={2}>
+          <BtnLink to="/juries/evaluation" content="Evaluer" />
+        </Stack>
       </CardContent>
     </Card>
   );

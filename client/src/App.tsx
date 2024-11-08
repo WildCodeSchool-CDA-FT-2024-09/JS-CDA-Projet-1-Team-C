@@ -9,6 +9,9 @@ import Footer from "./components/Footer";
 import "./global.css";
 
 const theme = createTheme({
+  typography: {
+    fontFamily: "Roboto, sans-serif",
+  },
   palette: {
     primary: {
       main: "#1879CD",
