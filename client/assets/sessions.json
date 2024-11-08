@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "start": "01/11/2023 09:00:00",
+    "end": "01/11/2023 11:00:00",
+    "competition": {
+      "id": 1,
+      "name": "Spring Championship"
+    },
+    "team": {
+      "id": 1,
+      "name": "Eagles"
+    }
+  },
+  {
+    "id": 2,
+    "start": "02/11/2023 10:00:00",
+    "end": "02/11/2023 12:00:00",
+    "competition": {
+      "id": 1,
+      "name": "Spring Championship"
+    },
+    "team": {
+      "id": 2,
+      "name": "Falcons"
+    }
+  },
+  {
+    "id": 3,
+    "start": "03/11/2023 14:00:00",
+    "end": "03/11/2023 16:00:00",
+    "competition": {
+      "id": 2,
+      "name": "Autumn League"
+    },
+    "team": {
+      "id": 3,
+      "name": "Hawks"
+    }
+  },
+  {
+    "id": 4,
+    "start": "04/11/2023 09:30:00",
+    "end": "04/11/2023 11:30:00",
+    "competition": {
+      "id": 2,
+      "name": "Autumn League"
+    },
+    "team": {
+      "id": 4,
+      "name": "Owls"
+    }
+  },
+  {
+    "id": 5,
+    "start": "05/11/2023 15:00:00",
+    "end": "05/11/2023 17:00:00",
+    "competition": {
+      "id": 3,
+      "name": "Winter Classic"
+    },
+    "team": {
+      "id": 5,
+      "name": "Ravens"
+    }
+  }
+]
