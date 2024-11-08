@@ -11,6 +11,11 @@ export const GET_JURIES = gql`
         firstname
         lastname
       }
+      competition {
+        id
+        name
+        date
+      }
     }
   }
 `;
@@ -119,6 +124,31 @@ export const GET_TEAMS_OF_COMPETITION_BY_ID = gql`
         contact
         location
         id
+      }
+    }
+  }
+`;
+
+// used for juries view
+export const GET_JURIES_BY_USER = gql`
+  query GetJuriesByUser($userId: Float!) {
+    getJuriesByUser(userId: $userId) {
+      id
+      name
+      users {
+        firstname
+        lastname
+      }
+      sessions {
+        startTime
+        endTime
+        team {
+          name
+        }
+      }
+      competition {
+        name
+        date
       }
     }
   }

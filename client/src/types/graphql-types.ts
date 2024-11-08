@@ -139,12 +139,18 @@ export type Query = {
   getAllCompetitions: Array<Competition>;
   getAllJuries: Array<Jury>;
   getCompetitionById: Competition;
+  getJuriesByUser: Array<Jury>;
   getUsersByRole: Array<User>;
 };
 
 
 export type QueryGetCompetitionByIdArgs = {
   competitionId: Scalars['Float']['input'];
+};
+
+
+export type QueryGetJuriesByUserArgs = {
+  userId: Scalars['Float']['input'];
 };
 
 
@@ -294,7 +300,7 @@ export type CreateSessionMutation = { __typename?: 'Mutation', createSession: { 
 export type GetAllJuriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllJuriesQuery = { __typename?: 'Query', getAllJuries: Array<{ __typename?: 'Jury', id: number, name: string, users: Array<{ __typename?: 'User', id: number, email: string, firstname: string, lastname: string }> }> };
+export type GetAllJuriesQuery = { __typename?: 'Query', getAllJuries: Array<{ __typename?: 'Jury', id: number, name: string, users: Array<{ __typename?: 'User', id: number, email: string, firstname: string, lastname: string }>, competition: { __typename?: 'Competition', id: number, name: string, date: string } }> };
 
 export type GetJuriesOfCompetitionQueryVariables = Exact<{
   competitionId: Scalars['Float']['input'];
@@ -333,6 +339,13 @@ export type GetTeamsOfCompetitionByIdQueryVariables = Exact<{
 
 
 export type GetTeamsOfCompetitionByIdQuery = { __typename?: 'Query', getCompetitionById: { __typename?: 'Competition', date: string, id: number, location: string, name: string, teams: Array<{ __typename?: 'Team', name: string, contact: string, location: string, id: number }> } };
+
+export type GetJuriesByUserQueryVariables = Exact<{
+  userId: Scalars['Float']['input'];
+}>;
+
+
+export type GetJuriesByUserQuery = { __typename?: 'Query', getJuriesByUser: Array<{ __typename?: 'Jury', id: number, name: string, users: Array<{ __typename?: 'User', firstname: string, lastname: string }>, sessions: Array<{ __typename?: 'Session', startTime: string, endTime: string, team: { __typename?: 'Team', name: string } }>, competition: { __typename?: 'Competition', name: string, date: string } }> };
 
 
 export const CreateNewJuryDocument = gql`
@@ -726,6 +739,11 @@ export const GetAllJuriesDocument = gql`
       firstname
       lastname
     }
+    competition {
+      id
+      name
+      date
+    }
   }
 }
     `;
@@ -1059,3 +1077,59 @@ export type GetTeamsOfCompetitionByIdQueryHookResult = ReturnType<typeof useGetT
 export type GetTeamsOfCompetitionByIdLazyQueryHookResult = ReturnType<typeof useGetTeamsOfCompetitionByIdLazyQuery>;
 export type GetTeamsOfCompetitionByIdSuspenseQueryHookResult = ReturnType<typeof useGetTeamsOfCompetitionByIdSuspenseQuery>;
 export type GetTeamsOfCompetitionByIdQueryResult = Apollo.QueryResult<GetTeamsOfCompetitionByIdQuery, GetTeamsOfCompetitionByIdQueryVariables>;
+export const GetJuriesByUserDocument = gql`
+    query GetJuriesByUser($userId: Float!) {
+  getJuriesByUser(userId: $userId) {
+    id
+    name
+    users {
+      firstname
+      lastname
+    }
+    sessions {
+      startTime
+      endTime
+      team {
+        name
+      }
+    }
+    competition {
+      name
+      date
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetJuriesByUserQuery__
+ *
+ * To run a query within a React component, call `useGetJuriesByUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetJuriesByUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetJuriesByUserQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetJuriesByUserQuery(baseOptions: Apollo.QueryHookOptions<GetJuriesByUserQuery, GetJuriesByUserQueryVariables> & ({ variables: GetJuriesByUserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetJuriesByUserQuery, GetJuriesByUserQueryVariables>(GetJuriesByUserDocument, options);
+      }
+export function useGetJuriesByUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetJuriesByUserQuery, GetJuriesByUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetJuriesByUserQuery, GetJuriesByUserQueryVariables>(GetJuriesByUserDocument, options);
+        }
+export function useGetJuriesByUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetJuriesByUserQuery, GetJuriesByUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetJuriesByUserQuery, GetJuriesByUserQueryVariables>(GetJuriesByUserDocument, options);
+        }
+export type GetJuriesByUserQueryHookResult = ReturnType<typeof useGetJuriesByUserQuery>;
+export type GetJuriesByUserLazyQueryHookResult = ReturnType<typeof useGetJuriesByUserLazyQuery>;
+export type GetJuriesByUserSuspenseQueryHookResult = ReturnType<typeof useGetJuriesByUserSuspenseQuery>;
+export type GetJuriesByUserQueryResult = Apollo.QueryResult<GetJuriesByUserQuery, GetJuriesByUserQueryVariables>;
