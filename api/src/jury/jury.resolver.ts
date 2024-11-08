@@ -64,6 +64,22 @@ export default class JuryResolver {
     });
   }
 
+  @Query(() => [Jury])
+  async getJuriesByUser(@Arg("userId") userId: number) {
+    return await Jury.find({
+      where: {
+        users: { id: userId },
+      },
+      relations: {
+        users: true,
+        competition: true,
+        sessions: {
+          team: true,
+        },
+      },
+    });
+  }
+
   //@Query(() => [Jury])
   // set as private for now, no need to be exposed publically
   async getUsersOfJury(@Arg("juryId") juryId: number) {
